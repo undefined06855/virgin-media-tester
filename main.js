@@ -39,8 +39,10 @@ const server = Bun.serve({
                 }
 
                 return { outages };
-            })()), { headers: { "Content-Type": "application/json" } });
+            })()), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
         },
+
+        "/": new Response("Yes!", {  headers: { "Content-Type": "text/plain", "Access-Control-Allow-Origin": "*" } })
     },
 
     port: process.env.PORT
