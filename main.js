@@ -65,7 +65,7 @@ class DAPIFetcher {
                     argv: process.env.BROWSER_ARGV_APPEND.split(" ")
                 },
             });
-            
+
             await view.navigate("about:blank");
 
             await view.cdp("Network.enable");
@@ -144,3 +144,6 @@ const server = Bun.serve({
 });
 
 console.log(`Hosting wifi status at port ${server.port}`);
+
+process.on("unhandledRejection", console.error);
+process.on("uncaughtException", console.error);
