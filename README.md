@@ -1,15 +1,17 @@
-# virgin-media-test
+# Virgin Media Tester
 
-To install dependencies:
+A simple server that allows testing of network faults for a certain house, knowing the postcode and surname.
 
-```bash
-bun install
+You should set the following environment variables:
+```env
+PORT=8080                   # The port to host this on
+VIRGIN_MEDIA_POSTCODE=      # Your house's postcode
+VIRGIN_MEDIA_SURNAME=       # The surname of the account holder
 ```
 
-To run:
+And this provides an endpoint `/status`, that when fetched, will fetch the (anonymised) error messages from Virgin
+Media.
 
-```bash
-bun run
-```
+To run, run `bun i` then `bun main`.
 
 This project was created using `bun init` in bun v1.4.0. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
