@@ -1,6 +1,7 @@
 # Virgin Media Tester
 
-A simple server that allows testing of network faults for a certain house, knowing the postcode and surname.
+A simple server that allows testing of network faults for a certain house, knowing the postcode and surname. This is
+used on the website https://undefined06855.github.io/is-server-up/
 
 You should set the following environment variables:
 ```env
