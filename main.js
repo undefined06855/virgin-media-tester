@@ -59,7 +59,13 @@ class DAPIFetcher {
     async refreshTokens() {
         return new Promise(async resolve => {
             console.time("refresh tokens");
-            const view = new Bun.WebView({ backend: { type: "chrome" }});
+            const view = new Bun.WebView({
+                backend: {
+                    type: "chrome",
+                    argv: process.env.BROWSER_ARGV_APPEND.split(" ")
+                },
+            });
+            
             await view.navigate("about:blank");
 
             await view.cdp("Network.enable");

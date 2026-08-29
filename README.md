@@ -8,6 +8,7 @@ You should set the following environment variables:
 PORT=8080                   # The port to host this on
 VIRGIN_MEDIA_POSTCODE=      # Your house's postcode
 VIRGIN_MEDIA_SURNAME=       # The surname of the account holder
+BROWSER_ARGV_APPEND=--no-sandbox # Flags to append when launching the browser
 ```
 
 And this provides an endpoint `/status`, that when fetched, will fetch the (anonymised) error messages from Virgin
