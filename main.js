@@ -85,7 +85,14 @@ class DAPIFetcher {
                 // after a bit, the website temporarily redirects to a few pages to refresh some oauth tokens, so we
                 // should only start doing shit after it's finished with whatever its doing
                 if (url.pathname == "/help/check/auth-deflection") {
-                    await view.click("button#privacy_pref_optout");
+                    try {
+                        await view.click("button#privacy_pref_optout");
+                    } catch(err) {
+                        // common failure point for some reason and im not sure why
+                        console.log("click fail");
+                        await Bun.write("click_fail.png", view.screenshot());
+                        throw err;
+                    }
 
                     await view.click("input#postcode");
                     await view.type(process.env.VIRGIN_MEDIA_POSTCODE);
@@ -115,7 +122,14 @@ const server = Bun.serve({
     routes: {
         "/status": async req => {
             return new Response(JSON.stringify(await (async () => {
-                let res = await fetcher.fetchInfos()
+                let res;
+                try {
+                    res = await fetcher.fetchInfos()
+                } catch(err) {
+                    console.error(err);
+                    return { error: `internal server error: ${err}` };
+                }
+
                 if (res.error) {
                     return { error: res.error };
                 }
