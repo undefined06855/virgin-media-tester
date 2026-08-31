@@ -91,9 +91,7 @@ class DAPIFetcher {
                 // should only start doing shit after it's finished with whatever its doing
                 if (url.pathname == "/help/check/auth-deflection") {
                     // may or may not exist
-                    if (await view.evaluate(`document.querySelector("button#privacy_pref_optout")`)) {
-                        await view.click("button#privacy_pref_optout", { timeout: 500 });
-                    }
+                    try { await view.click("button#privacy_pref_optout", { timeout: 500 }) } catch(_) {}
 
                     await view.click("input#postcode");
                     await view.type(process.env.VIRGIN_MEDIA_POSTCODE);
