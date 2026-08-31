@@ -90,13 +90,9 @@ class DAPIFetcher {
                 // after a bit, the website temporarily redirects to a few pages to refresh some oauth tokens, so we
                 // should only start doing shit after it's finished with whatever its doing
                 if (url.pathname == "/help/check/auth-deflection") {
-                    try {
-                        await view.click("button#privacy_pref_optout");
-                    } catch(err) {
-                        // common failure point for some reason and im not sure why
-                        console.log("click fail");
-                        await Bun.write("click_fail.png", await view.screenshot());
-                        throw err;
+                    // may or may not exist
+                    if (await view.evaluate(`document.querySelector("button#privacy_pref_optout")`)) {
+                        await view.click("button#privacy_pref_optout", { timeout: 500 });
                     }
 
                     await view.click("input#postcode");
