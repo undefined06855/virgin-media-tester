@@ -168,4 +168,4 @@ process.on("uncaughtException", console.error);
 // make headers not out of date
 setInterval(async () => {
     await fetcher.fetchInfos();
-}, 60000)();
+}, 60000);
