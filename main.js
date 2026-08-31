@@ -17,6 +17,7 @@ class DAPIResult {
 
 class DAPIFetcher {
     /** @type {object} */ headers;
+    /** @type {Promise | null} */ fetchHeadersPromise = null;
 
     /**
      * Fetches the info from the API, and refreshes headers if they are invalid.
@@ -57,7 +58,11 @@ class DAPIFetcher {
      * @returns {Promise}
      */
     async refreshTokens() {
-        return new Promise(async resolve => {
+        if (this.fetchHeadersPromise) {
+            return this.fetchHeadersPromise;
+        }
+
+        this.fetchHeadersPromise = new Promise(async resolve => {
             console.time("refresh tokens");
             const view = new Bun.WebView({
                 backend: {
@@ -112,7 +117,11 @@ class DAPIFetcher {
             await view.evaluate("123");
             await view.evaluate("123");
             await view.evaluate("123");
+        }).finally(() => {
+            this.fetchHeadersPromise = null;
         });
+
+        return this.fetchHeadersPromise;
     }
 }
 
