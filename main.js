@@ -90,7 +90,7 @@ class DAPIFetcher {
                     } catch(err) {
                         // common failure point for some reason and im not sure why
                         console.log("click fail");
-                        await Bun.write("click_fail.png", view.screenshot());
+                        await Bun.write("click_fail.png", await view.screenshot());
                         throw err;
                     }
 
