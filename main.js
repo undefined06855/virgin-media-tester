@@ -127,7 +127,7 @@ const server = Bun.serve({
             return new Response(JSON.stringify(await (async () => {
                 let res;
                 try {
-                    res = await fetcher.fetchInfos()
+                    res = await fetcher.fetchInfos();
                 } catch(err) {
                     console.error(err);
                     return { error: `internal server error: ${err}` };
@@ -164,3 +164,8 @@ console.log(`Hosting wifi status at port ${server.port}`);
 
 process.on("unhandledRejection", console.error);
 process.on("uncaughtException", console.error);
+
+// make headers not out of date
+setInterval(async () => {
+    await fetcher.fetchInfos();
+}, 60000)();
