@@ -1,3 +1,5 @@
+import * as os from "os";
+
 class DAPIResult {
     /** @type {string | null} */ error = null;
     /** @type {Array<object> | null} */ outages = null;
@@ -121,6 +123,16 @@ class DAPIFetcher {
 
 let fetcher = new DAPIFetcher();
 
+/**
+ * @param {string} contentType
+ */
+function createHeaders(contentType) {
+    return {
+        "Content-Type": contentType,
+        "Access-Control-Allow-Origin": "*"
+    };
+}
+
 const server = Bun.serve({
     routes: {
         "/status": async req => {
@@ -146,14 +158,20 @@ const server = Bun.serve({
                         customerDescription: outage["customerDescription"],
                         estimatedFixTime: outage["estimatedFixTime"],
                         outageStatus: outage["outageStatus"],
-                    })
+                    });
                 }
 
                 return { outages };
-            })()), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
+            })()), { headers: createHeaders("application/json") });
         },
 
-        "/": new Response("Yes!", {  headers: { "Content-Type": "text/plain", "Access-Control-Allow-Origin": "*" } })
+        "/other": async req => {
+            return new Response(JSON.stringify({
+                uptime: os.uptime()
+            }), { headers: createHeaders("application/json") })
+        },
+
+        "/": new Response("Yes!", {  headers: createHeaders("text/plain") })
     },
 
     port: process.env.PORT,
