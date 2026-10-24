@@ -1,3 +1,4 @@
+import humanizeDuration from "humanize-duration";
 import * as os from "os";
 
 class DAPIResult {
@@ -167,7 +168,7 @@ const server = Bun.serve({
 
         "/other": async req => {
             return new Response(JSON.stringify({
-                uptime: os.uptime()
+                uptime: humanizeDuration(os.uptime() * 1000)
             }), { headers: createHeaders("application/json") })
         },
 
